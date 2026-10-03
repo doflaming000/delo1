@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>San-Fierro News</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#f4f1ea;--ink:#0a0a0a;--ink2:#333;--ink3:#666;--acc:#2d8a4e;--line:#d4d0c8}
+html{scroll-behavior:smooth}
+body{font-family:'PT Serif',serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.7}
+img{max-width:100%;display:block}
+.hdr{background:var(--bg);padding:120px 100px 80px;border-bottom:5px solid var(--ink)}
+.hdr-top{font-size:16px;letter-spacing:8px;text-transform:uppercase;color:var(--acc);font-weight:700;margin-bottom:40px;font-family:'Inter',sans-serif}
+.hdr-title{font-family:'Oswald',sans-serif;font-size:clamp(100px,15vw,200px);font-weight:700;line-height:.95;letter-spacing:3px;margin-bottom:50px;color:var(--ink);text-transform:uppercase}
+.hdr-title em{font-family:'PT Serif',serif;font-style:italic;color:var(--acc);font-weight:400}
+.hdr-meta{display:flex;gap:70px;flex-wrap:wrap;padding-top:40px;border-top:3px solid var(--ink)}
+.hdr-meta div{display:flex;flex-direction:column;gap:10px}
+.hdr-meta strong{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);font-weight:700;font-family:'Inter',sans-serif}
+.hdr-meta span{font-size:20px;font-weight:600;color:var(--ink);font-family:'Inter',sans-serif}
+.nav{background:white;border-bottom:2px solid var(--ink);padding:0 80px;position:sticky;top:0;z-index:100}
+.nav-in{display:flex;justify-content:center}
+.nav-i{padding:24px 40px;cursor:pointer;border-right:2px solid var(--line);transition:all .3s;text-align:center}
+.nav-i:last-child{border-right:none}.nav-i:hover{background:var(--bg)}.nav-i.act{background:var(--acc);color:white}
+.nav-n{font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;line-height:1}
+.nav-t{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-top:4px;font-family:'Inter',sans-serif}
+.nav-s{font-size:10px;opacity:.7;margin-top:3px;font-family:'Inter',sans-serif}
+.tick{background:var(--acc);color:white;padding:16px 80px;display:flex;align-items:center;gap:20px;overflow:hidden}
+.tick-l{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;background:white;color:var(--acc);padding:6px 16px;flex-shrink:0;font-family:'Inter',sans-serif;z-index:10}
+.tick-tr{flex:1;overflow:hidden;position:relative;height:22px}
+.tick-c{display:flex;position:absolute;top:0;left:0;animation:tk 35s linear infinite;white-space:nowrap}
+.tick-t{font-size:15px;font-weight:500;font-family:'PT Serif',serif;padding-right:60px;flex-shrink:0}
+@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+main{padding:80px 80px;max-width:1700px;margin:0 auto}
+.cs{margin-bottom:140px}.cs:last-child{margin-bottom:0}
+.cs-h{display:grid;grid-template-columns:200px 1fr;gap:60px;margin-bottom:70px;padding-bottom:60px;border-bottom:5px solid var(--ink)}
+.cs-n{font-family:'Oswald',sans-serif;font-size:220px;font-weight:700;line-height:.85;color:var(--ink)}
+.cs-nl{font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-top:20px;font-family:'Inter',sans-serif}
+.cs-t{font-family:'Oswald',sans-serif;font-size:clamp(50px,7vw,90px);font-weight:700;line-height:1;letter-spacing:1px;margin-bottom:30px;text-transform:uppercase}
+.cs-t em{font-family:'PT Serif',serif;font-style:italic;color:var(--acc);font-weight:400;text-transform:none}
+.cs-s{font-family:'PT Serif',serif;font-size:24px;font-style:italic;color:var(--ink2);line-height:1.4;margin-bottom:40px;max-width:850px}
+.cs-m{display:flex;gap:50px;flex-wrap:wrap}
+.cs-m .m{display:flex;flex-direction:column;gap:6px}
+.cs-m .m strong{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);font-family:'Inter',sans-serif}
+.cs-m .m span{font-size:17px;font-weight:600;font-family:'Inter',sans-serif}
+.ar{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-bottom:60px;align-items:start}
+.ar.rev{direction:rtl}.ar.rev>*{direction:ltr}
+.at{font-family:'PT Serif',serif;font-size:19px;line-height:1.8}
+.at p{margin-bottom:22px}
+.hl{background:var(--acc);color:white;padding:2px 8px;font-weight:600}
+.hlg{color:var(--acc);font-weight:700;border-bottom:2px solid var(--acc)}
+.pq{margin:40px 0;padding:30px 0 30px 30px;border-left:5px solid var(--acc);font-family:'PT Serif',serif;font-size:26px;font-style:italic;line-height:1.4}
+.pq-a{display:block;margin-top:15px;font-family:'Inter',sans-serif;font-size:11px;font-style:normal;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);font-weight:600}
+.ap{position:relative}
+.ap img{width:100%;height:480px;object-fit:cover;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.ap .pc{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 0;border-top:2px solid var(--ink);margin-top:15px}
+.ap .cn{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--acc)}
+.ap .ct{font-size:14px;font-style:italic;color:var(--ink2);max-width:65%;text-align:right;font-family:'PT Serif',serif}
+.pf{margin:60px 0}
+.pf img{width:100%;height:600px;object-fit:cover;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.pf .pc{display:flex;justify-content:space-between;align-items:baseline;padding:18px 0 0;border-top:2px solid var(--ink);margin-top:15px}
+.pf .cn{font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--acc)}
+.pf .ct{font-size:14px;font-style:italic;color:var(--ink2);max-width:65%;text-align:right;font-family:'PT Serif',serif}
+.dv{display:flex;align-items:center;gap:30px;margin:100px 0}
+.dv-l{flex:1;height:3px;background:var(--ink)}
+.dv-t{font-family:'Oswald',sans-serif;font-size:32px;font-weight:700;letter-spacing:4px;text-transform:uppercase;white-space:nowrap}
+.ds{background:white;padding:80px;margin:80px 0;box-shadow:0 30px 80px rgba(0,0,0,.1);position:relative}
+.ds::before{content:'СЕКРЕТНО';position:absolute;top:35px;right:45px;font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:var(--acc);border:3px solid var(--acc);padding:8px 18px;transform:rotate(-8deg);letter-spacing:3px}
+.ds-h{margin-bottom:50px;padding-bottom:35px;border-bottom:3px solid var(--ink)}
+.ds-e{font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--acc);margin-bottom:18px;font-family:'Inter',sans-serif}
+.ds-t{font-family:'Oswald',sans-serif;font-size:72px;font-weight:700;line-height:1;margin-bottom:18px;letter-spacing:1px;text-transform:uppercase}
+.ds-n{font-size:15px;color:var(--ink3);font-weight:500;font-family:'PT Serif',serif}
+.dg{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--ink);margin-bottom:60px}
+.dc{padding:25px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);background:var(--bg)}
+.dc:nth-child(3n){border-right:none}.dc:nth-child(n+4){border-bottom:none}
+.dc-l{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;font-family:'Inter',sans-serif}
+.dc-v{font-family:'Oswald',sans-serif;font-size:28px;font-weight:600;line-height:1.1;text-transform:uppercase}
+.sp{display:grid;grid-template-columns:1fr 1.3fr;gap:60px;margin:60px 0;align-items:start}
+.spp{position:relative;background:var(--ink);padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.spp img{width:100%}
+.spp .bd{position:absolute;top:-13px;left:28px;background:var(--acc);color:white;padding:9px 18px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;font-family:'Inter',sans-serif}
+.spp .cp{padding:13px 10px 10px;font-size:14px;font-style:italic;color:var(--ink3);text-align:center;background:var(--bg);font-family:'PT Serif',serif}
+.spi h3{font-family:'Oswald',sans-serif;font-size:42px;font-weight:700;margin-bottom:25px;color:var(--acc);letter-spacing:1px;text-transform:uppercase}
+.spi .rw{padding:18px 0;border-bottom:2px solid var(--line)}
+.spi .rw:last-child{border-bottom:none}
+.spi .rw strong{display:block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ink3);margin-bottom:8px;font-family:'Inter',sans-serif}
+.spi .rw p{font-size:17px;line-height:1.5;font-weight:500;font-family:'PT Serif',serif}
+.db{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin:60px 0}
+.db h3{font-family:'Oswald',sans-serif;font-size:36px;font-weight:700;margin-bottom:22px;padding-bottom:13px;border-bottom:3px solid var(--acc);letter-spacing:1px;text-transform:uppercase}
+.db p{margin-bottom:18px;font-size:17px;line-height:1.7;font-family:'PT Serif',serif}
+.el{list-style:none}
+.el li{padding:16px 0 16px 28px;border-bottom:2px solid var(--line);position:relative;font-size:16px;font-weight:500;font-family:'PT Serif',serif}
+.el li::before{content:'-';position:absolute;left:0;color:var(--acc);font-size:18px;font-weight:700}
+.gt{font-family:'Oswald',sans-serif;font-size:48px;font-weight:700;text-align:center;margin:70px 0 35px;letter-spacing:2px;text-transform:uppercase}
+.gl{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin:35px 0}
+.gi{background:white;padding:13px;box-shadow:0 10px 40px rgba(0,0,0,.1);transition:transform .3s}
+.gi:hover{transform:translateY(-8px)}
+.gi img{width:100%;height:320px;object-fit:cover;margin-bottom:13px}
+.gi strong{display:block;font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;color:var(--acc);margin-bottom:6px;letter-spacing:1px}
+.gi span{font-size:13px;color:var(--ink2);line-height:1.4;font-family:'PT Serif',serif}
+.vd{background:var(--ink);color:white;padding:80px 60px;text-align:center;margin-top:80px;position:relative;overflow:hidden}
+.vd::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(135deg,var(--acc) 0%,transparent 50%);opacity:.3}
+.vd-l{font-size:13px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--acc);margin-bottom:25px;position:relative;z-index:2;font-family:'Inter',sans-serif}
+.vd-t{font-family:'Oswald',sans-serif;font-size:56px;font-weight:700;line-height:1.1;letter-spacing:1px;position:relative;z-index:2;text-transform:uppercase}
+.vd-t span{display:block;font-size:22px;font-family:'PT Serif',serif;font-weight:400;margin-top:20px;opacity:.8;letter-spacing:0;text-transform:none}
+.sg{display:flex;justify-content:center;gap:120px;margin-top:80px;padding-top:60px;border-top:3px solid var(--ink)}
+.sx{text-align:center}
+.sx-n{font-family:'Oswald',sans-serif;font-size:26px;font-weight:700;letter-spacing:2px;margin-bottom:6px;text-transform:uppercase}
+.sx-r{font-size:13px;color:var(--ink3);font-weight:600;letter-spacing:1px;text-transform:uppercase;font-family:'Inter',sans-serif}
+.ft{background:var(--ink);color:white;padding:70px 80px 50px;text-align:center}
+.ft-l{font-family:'Oswald',sans-serif;font-size:56px;font-weight:700;margin-bottom:20px;letter-spacing:3px;text-transform:uppercase}
+.ft-l em{font-family:'PT Serif',serif;font-style:italic;color:var(--acc);font-weight:400;text-transform:none}
+.ft-i{font-size:13px;letter-spacing:2px;text-transform:uppercase;opacity:.7;margin-bottom:8px;font-weight:600;font-family:'Inter',sans-serif}
+.ft-c{font-size:13px;opacity:.5;margin-top:25px;font-style:italic;font-family:'PT Serif',serif}
+@media(max-width:900px){.hdr,.nav,.tick,main,.ft{padding-left:25px;padding-right:25px}.cs-h{grid-template-columns:1fr;gap:35px}.cs-n{font-size:130px}.ar{grid-template-columns:1fr;gap:40px}.ar.rev{direction:ltr}.ds{padding:35px 22px}.dg{grid-template-columns:1fr}.dc{border-right:none}.sp{grid-template-columns:1fr}.db{grid-template-columns:1fr}.gl{grid-template-columns:1fr}.sg{flex-direction:column;gap:40px}.ds-t{font-size:42px}.vd-t{font-size:32px}.ap img,.pf img{height:360px}.gi img{height:240px}}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+<div class="hdr-top">Основано в San-Fierro News</div>
+<h1 class="hdr-title">ПРАВДА, КОТОРУЮ <em>БОЯТСЯ</em> ПЕЧАТАТЬ</h1>
+<div class="hdr-meta">
+<div><strong>Редактор</strong><span>Purosangue Sao</span></div>
+<div><strong>Штат</strong><span>Saint-Louis</span></div>
+<div><strong>Дата</strong><span>3 октября 2026</span></div>
+<div><strong>Выпуск</strong><span>№1</span></div>
+</div>
+</header>
+
+<nav class="nav">
+<div class="nav-in">
+<div class="nav-i act" data-t="c1" onclick="sc('c1',this)"><div class="nav-n">01</div><div class="nav-t">Маньяк-таксист</div><div class="nav-s">Завершено</div></div>
+<div class="nav-i" data-t="c2" onclick="sc('c2',this)"><div class="nav-n">02</div><div class="nav-t">Ринопластика</div><div class="nav-s">Завершено</div></div>
+<div class="nav-i" data-t="c3" onclick="sc('c3',this)"><div class="nav-n">03</div><div class="nav-t">Взятка в КПЗ</div><div class="nav-s">Завершено</div></div>
+<div class="nav-i" data-t="c4" onclick="sc('c4',this)"><div class="nav-n">04</div><div class="nav-t">Подпольные бои</div><div class="nav-s">Завершено</div></div>
+</div>
+</nav>
+
+<div class="tick">
+<div class="tick-l">СРОЧНО</div>
+<div class="tick-tr">
+<div class="tick-c">
+<div class="tick-t">San-Fierro News разоблачает тренера-организатора подпольных боёв в Лос-Сантосе · Purosangue Sao заснял последний бой · Тренер Joni Sonn арестован · Расследование завершено ·</div>
+<div class="tick-t">San-Fierro News разоблачает тренера-организатора подпольных боёв в Лос-Сантосе · Purosangue Sao заснял последний бой · Тренер Joni Sonn арестован · Расследование завершено ·</div>
+</div>
+</div>
+</div>
+
+<main>
+
+<!-- ДЕЛО 1 -->
+<article class="cs" id="c1">
+<div class="cs-h">
+<div><div class="cs-n">01</div><div class="cs-nl">Дело из четырёх</div></div>
+<div>
+<h1 class="cs-t">МАНЬЯК-ТАКСИСТ ПОЙМАН: <em>В ЕГО МАШИНЕ НАЙДЕНЫ ЖЕНСКИЕ УШИ</em></h1>
+<p class="cs-s">Детективы SFPD раскрыли дело серийного убийцы, который месяцами терроризировал город под видом бесплатного такси</p>
+<div class="cs-m">
+<div class="m"><strong>Опубликовано</strong><span>3 октября 2026</span></div>
+<div class="m"><strong>Автор</strong><span>Purosangue Sao</span></div>
+<div class="m"><strong>Герои</strong><span>Toni Stark, Felix Akana</span></div>
+<div class="m"><strong>Статус</strong><span>Завершено</span></div>
+</div>
+</div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>Детективы San Fierro Police Department задержали опасного преступника, который терроризировал город последние месяцы. Маньяк-таксист использовал свою машину для похищения девушек, вывозил их в глухие лесные массивы и жестоко убивал.</p>
+<p>Операция по задержанию проходила в загородной зоне. Сотрудники полиции остановили оранжевое такси с номером 6317, на котором было написано "БЕСПЛАТНОЕ ТАКСИ" - именно эта надпись привлекала доверчивых жертв.</p>
+</div>
+<div class="ap"><img src="img/1.jpg"><div class="pc"><span class="cn">ФОТО 01</span><span class="ct">Детективы SFPD проводят проверку такси в лесной зоне</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<div class="pq">Сэр, что вы делаете здесь?<span class="pq-a">Детектив SFPD, начало проверки</span></div>
+<p>На место происшествия прибыли детективы <span class="hl">Toni Stark</span> и <span class="hl">Felix Akana</span>. Они провели задержание по всем правилам: подозреваемому заломили руки за спину и надели наручники.</p>
+</div>
+<div class="ap"><img src="img/2.jpg"><div class="pc"><span class="cn">ФОТО 02</span><span class="ct">Оранжевое такси с надписью "БЕСПЛАТНОЕ ТАКСИ"</span></div></div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>При обыске автомобиля следователи обнаружили шокирующую находку - <span class="hlg">женские отрезанные уши</span>. В багажнике были найдены уши, принадлежащие жертвам преступника. Преступник сразу же был взят под стражу.</p>
+<div class="pq">В багажнике находятся женские отрезанные уши<span class="pq-a">Доклад детектива после осмотра</span></div>
+</div>
+<div class="ap"><img src="img/3.jpg"><div class="pc"><span class="cn">ФОТО 03</span><span class="ct">"Сэр, мы должны обыскать вашу машину"</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<p>Задержанный таксист перевозил девушек в самые отдалённые уголки леса, где совершал свои жестокие преступления. Полиция призывает всех, кто видел подобное такси или становился свидетелем подозрительных ситуаций, обращаться в правоохранительные органы.</p>
+</div>
+<div class="ap"><img src="img/4.jpg"><div class="pc"><span class="cn">ФОТО 04</span><span class="ct">Обыск автомобиля: в багажнике найдены женские уши</span></div></div>
+</div>
+
+<div class="pf"><img src="img/5.jpg"><div class="pc"><span class="cn">ФОТО 05</span><span class="ct">Подозреваемому заломили руки и надели наручники</span></div></div>
+
+<div class="dv"><div class="dv-l"></div><div class="dv-t">УГОЛОВНОЕ ДЕЛО №1</div><div class="dv-l"></div></div>
+
+<div class="ds">
+<div class="ds-h">
+<div class="ds-e">San Fierro Police Department - Уголовное досье</div>
+<h2 class="ds-t">ДЕЛО МАНЬЯКА-ТАКСИСТА</h2>
+<div class="ds-n">№2-111/2026 - Дата возбуждения: 3 октября 2026</div>
+</div>
+
+<div class="dg">
+<div class="dc"><div class="dc-l">Отделение</div><div class="dc-v">SAN FIERRO PD</div></div>
+<div class="dc"><div class="dc-l">Ведущие детективы</div><div class="dc-v">TONI STARK, FELIX AKANA</div></div>
+<div class="dc"><div class="dc-l">Статья</div><div class="dc-v">СЕРИЙНЫЕ УБИЙСТВА, ПОХИЩЕНИЯ</div></div>
+<div class="dc"><div class="dc-l">Место преступления</div><div class="dc-v">ЛЕСНОЙ МАССИВ SAN-FIERRO</div></div>
+<div class="dc"><div class="dc-l">Статус</div><div class="dc-v">ПОСАЖЕН В SFPD</div></div>
+<div class="dc"><div class="dc-l">Количество жертв</div><div class="dc-v">20 ЖЕНЩИН</div></div>
+</div>
+
+<div class="sp">
+<div class="spp"><div class="bd">Подозреваемый</div><img src="img/7.jpg"><div class="cp">Фото №7 - Задержание завершено - "Просто мне не повезло"</div></div>
+<div class="spi">
+<h3>ДАННЫЕ ПОДОЗРЕВАЕМОГО</h3>
+<div class="rw"><strong>Статус</strong><p>Посажен в San Fierro Police Department</p></div>
+<div class="rw"><strong>Особые приметы</strong><p>Полосатая майка, спортивные шорты красно-чёрного цвета</p></div>
+<div class="rw"><strong>Транспортное средство</strong><p>Оранжевое такси, гос. номер 6317, надпись "БЕСПЛАТНОЕ ТАКСИ"</p></div>
+<div class="rw"><strong>Метод преступления</strong><p>Похищение девушек под видом бесплатного такси, вывоз в лес, убийство</p></div>
+</div>
+</div>
+
+<div class="db">
+<div>
+<h3>ОПИСАНИЕ ПРЕСТУПЛЕНИЯ</h3>
+<p>Подозреваемый использовал автомобиль марки такси оранжевого цвета (гос. номер 6317) с надписью "БЕСПЛАТНОЕ ТАКСИ" для привлечения жертв. Девушки садились в машину добровольно, после чего подозреваемый вывозил их в лесные массивы за городом, где совершал убийства.</p>
+<p>В ходе операции детективы остановили автомобиль в загородной зоне. При проверке документов и осмотре транспортного средства были обнаружены неопровержимые улики причастности водителя к серии жестоких преступлений.</p>
+<h3>ХОД ЗАДЕРЖАНИЯ</h3>
+<p>Детективы Toni Stark и Felix Akana провели операцию по задержанию в лесной зоне пригорода San-Fierro. Подозреваемый был обнаружен рядом с оранжевым такси. При попытке сопротивления ему были заломлены руки за спину и надеты наручники.</p>
+</div>
+<div>
+<h3>ВЕЩЕСТВЕННЫЕ ДОКАЗАТЕЛЬСТВА</h3>
+<ul class="el">
+<li>Оранжевое такси (гос. номер 6317) с надписью "БЕСПЛАТНОЕ ТАКСИ"</li>
+<li>Женские отрезанные уши, обнаруженные в багажнике</li>
+<li>Следы крови в салоне и багажнике</li>
+<li>Показания свидетелей и детективов SFPD</li>
+<li>Фото- и видеофиксация места преступления</li>
+<li>Наручники, использованные при задержании</li>
+</ul>
+</div>
+</div>
+
+<div class="gt">ПРОЦЕСС ЗАДЕРЖАНИЯ</div>
+<div class="gl">
+<div class="gi"><img src="img/1.jpg"><strong>ЭТАП 01</strong><span>Начало проверки такси детективами SFPD</span></div>
+<div class="gi"><img src="img/2.jpg"><strong>ЭТАП 02</strong><span>Такси и полицейский автомобиль на месте</span></div>
+<div class="gi"><img src="img/3.jpg"><strong>ЭТАП 03</strong><span>Осмотр багажника - найдены женские уши</span></div>
+<div class="gi"><img src="img/4.jpg"><strong>ЭТАП 04</strong><span>"Сэр, мы должны обыскать вашу машину"</span></div>
+<div class="gi"><img src="img/5.jpg"><strong>ЭТАП 05</strong><span>Подозреваемому заломили руки</span></div>
+<div class="gi"><img src="img/6.jpg"><strong>ЭТАП 06</strong><span>Задержание завершено</span></div>
+</div>
+
+<div class="vd">
+<div class="vd-l">Вердикт - Дело №1</div>
+<div class="vd-t">ПРЕСТУПНИК ПОСАЖЕН В SAN FIERRO POLICE DEPARTMENT<span>Дело закрыто - Преступник понесёт ответственность.</span></div>
+</div>
+
+<div class="sg">
+<div class="sx"><div class="sx-n">TONI STARK</div><div class="sx-r">Детектив SFPD</div></div>
+<div class="sx"><div class="sx-n">FELIX AKANA</div><div class="sx-r">Детектив SFPD</div></div>
+</div>
+</div>
+</article>
+
+<!-- ДЕЛО 2 -->
+<article class="cs" id="c2">
+<div class="cs-h">
+<div><div class="cs-n">02</div><div class="cs-nl">Дело из четырёх</div></div>
+<div>
+<h1 class="cs-t">ХИРУРГ-КАЛЕКА ИЗ ЛАС-ВЕНТУРАСА: <em>SAN-FIERRO NEWS ВОЗВРАЩАЕТ ЛИЦА ЖЕРТВАМ РИНОПЛАСТИКИ</em></h1>
+<p class="cs-s">Частный врач изуродовал двух пациентов. Наша редакция оплатила спасительные операции в Больнице Лос-Сантоса - и они снова счастливы</p>
+<div class="cs-m">
+<div class="m"><strong>Опубликовано</strong><span>3 октября 2026</span></div>
+<div class="m"><strong>Автор</strong><span>Purosangue Sao</span></div>
+<div class="m"><strong>Герои</strong><span>Aisha Kardashian, Aaron Robson, Kenpachi Zaraki</span></div>
+<div class="m"><strong>Статус</strong><span>Операции завершены успешно</span></div>
+</div>
+</div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>В редакцию San-Fierro News обратилась женщина по имени Aisha Kardashian с душераздирающей историей. После посещения частного кабинета ринопластики в Лас-Вентурасе она осталась буквально без лица - результат операции оказался катастрофическим.</p>
+<p>Женщина показала нам фотографии "до" и "после", и даже наши закалённые журналисты были в шоке. То, что должно было стать преображением, превратилось в настоящую трагедию. Лицо Aisha было изуродовано настолько, что она перестала выходить из дома и смотреть в зеркало.</p>
+</div>
+<div class="ap"><img src="img/8.jpg"><div class="pc"><span class="cn">ФОТО 01</span><span class="ct">Aisha Kardashian - последствия некачественной операции</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<div class="pq">Я просто хотела стать красивее. А теперь боюсь смотреть в зеркало. Помогите мне, пожалуйста.<span class="pq-a">Aisha Kardashian, обращение в редакцию</span></div>
+<p>Редакция San-Fierro News во главе с редактором <span class="hl">Purosangue Sao</span> приняла беспрецедентное решение: <span class="hlg">мы полностью спонсируем новую ринопластику</span> для Aisha в одной из лучших больниц штата - Больнице Лос-Сантоса.</p>
+</div>
+<div class="ap"><img src="img/9.jpg"><div class="pc"><span class="cn">ФОТО 02</span><span class="ct">Aisha в холле Больницы Лос-Сантоса с чемоданом</span></div></div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>Но когда наша съёмочная группа прибыла в больницу, чтобы сопроводить Aisha на процедуру, нас ждал ещё один сюрприз. В холле Больницы Лос-Сантоса мы встретили второго пациента - <span class="hl">Aaron Robson</span> - с точно такой же проблемой. Ему тоже "повезло" попасть к тому же горе-хирургу из Лас-Вентураса.</p>
+<div class="pq">Я думал, что только мне так не повезло. А оказывается, этот врач калечит людей потоком.<span class="pq-a">Aaron Robson, пациент Больницы Лос-Сантоса</span></div>
+</div>
+<div class="ap"><img src="img/10.jpg"><div class="pc"><span class="cn">ФОТО 03</span><span class="ct">Richard Brandenburg - тот самый доктор-калека из Лас-Вентураса</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<p>Редакция приняла решение: <span class="hlg">помочь обоим пострадавшим</span>. Мы оплатили операции и для Aisha, и для Aaron. Оба были приняты в Больницу Лос-Сантоса под наблюдение лучших хирургов штата.</p>
+<p>В коридорах больницы мы встретили медицинский персонал - <span class="hl">Wilhelm Schickard</span>, который подтвердил, что случаи некачественной ринопластики из Лас-Вентураса поступают к ним регулярно. </p>
+<div class="pq">Мы сделаем всё, чтобы вернуть им лица!<span class="pq-a">Корреспондент SFN, Operations Room</span></div>
+</div>
+<div class="ap"><img src="img/11.jpg"><div class="pc"><span class="cn">ФОТО 04</span><span class="ct">Aaron Robson - второй пациент, жертва того же хирурга</span></div></div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>А у двери операционной нас встретил хирург <span class="hlg">Kenpachi Zaraki</span> с многообещающей фразой: "Займёмся!". Операции прошли успешно. Kenpachi Zaraki провёл обе ринопластики на высшем уровне. Aisha и Aaron вышли из операционной совершенно другими людьми - счастливыми, красивыми и благодарными.</p>
+<p>San-Fierro News продолжает расследование деятельности частного кабинета в Лас-Вентурасе. Мы установили личность хирурга и готовим материал о его деятельности. Всем пострадавшим рекомендуем обращаться в нашу редакцию - мы поможем.</p>
+</div>
+<div class="ap"><img src="img/12.jpg"><div class="pc"><span class="cn">ФОТО 05</span><span class="ct">Kenpachi Zaraki у двери Operations Room: "Займёмся!"</span></div></div>
+</div>
+
+<div style="background:var(--acc);color:white;padding:80px;margin:80px 0;position:relative">
+<div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:10px 30px;font-family:'Oswald',sans-serif;font-size:20px;font-weight:700;letter-spacing:3px">OPERATIONS ROOM</div>
+<div style="text-align:center;margin-bottom:50px">
+<div style="font-size:12px;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:15px;opacity:.8;font-family:'Inter',sans-serif">Ход операции</div>
+<h3 style="font-family:'Oswald',sans-serif;font-size:56px;font-weight:700;margin-bottom:15px;letter-spacing:1px;text-transform:uppercase">KENPACHI ZARAKI ПРОВОДИТ ОБЕ ОПЕРАЦИИ</h3>
+<p style="font-size:20px;font-style:italic;opacity:.9">Хирург провёл две сложнейшие ринопластики подряд - обе прошли без осложнений</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:35px">
+<div style="background:white;padding:13px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+<img src="img/13.jpg" style="width:100%;height:360px;object-fit:cover;margin-bottom:13px">
+<div><strong style="display:block;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--acc);margin-bottom:6px;text-transform:uppercase">ОПЕРАЦИЯ №1 - AISHA KARDASHIAN</strong><span style="font-size:14px;color:var(--ink2);font-style:italic">Kenpachi Zaraki проводит ринопластику. В воздухе лёгкий запах антисептика.</span></div>
+</div>
+<div style="background:white;padding:13px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+<img src="img/14.jpg" style="width:100%;height:360px;object-fit:cover;margin-bottom:13px">
+<div><strong style="display:block;font-family:'Oswald',sans-serif;font-size:22px;font-weight:700;color:var(--acc);margin-bottom:6px;text-transform:uppercase">ОПЕРАЦИЯ №2 - AARON ROBSON</strong><span style="font-size:14px;color:var(--ink2);font-style:italic">Вторая операция того же дня. Хирург работает без перерыва.</span></div>
+</div>
+</div>
+</div>
+
+<div class="dv"><div class="dv-l"></div><div class="dv-t">РЕЗУЛЬТАТ ОПЕРАЦИЙ</div><div class="dv-l"></div></div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:35px;margin:60px 0">
+<div style="background:white;padding:22px;box-shadow:0 15px 50px rgba(0,0,0,.1)">
+<div style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;padding-bottom:13px;margin-bottom:18px;border-bottom:3px solid var(--ink);letter-spacing:2px;color:var(--acc);text-transform:uppercase">AISHA - ДО ОПЕРАЦИИ</div>
+<img src="img/15.jpg" style="width:100%;height:360px;object-fit:cover;margin-bottom:18px">
+<p style="font-size:16px;font-style:italic;color:var(--ink2);line-height:1.5">Aisha Kardashian на операционном столе перед началом процедуры. Видны тяжёлые последствия некачественной ринопластики из Лас-Вентураса.</p>
+</div>
+<div style="background:white;padding:22px;box-shadow:0 15px 50px rgba(0,0,0,.1)">
+<div style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;padding-bottom:13px;margin-bottom:18px;border-bottom:3px solid var(--ink);letter-spacing:2px;color:var(--acc);text-transform:uppercase">AISHA - ПОСЛЕ ОПЕРАЦИИ</div>
+<img src="img/17.jpg" style="width:100%;height:360px;object-fit:cover;margin-bottom:18px">
+<p style="font-size:16px;font-style:italic;color:var(--ink2);line-height:1.5">Aisha после успешной операции - красивая, счастливая, с букетом роз. Ринопластика прошла идеально.</p>
+</div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:35px;margin:60px 0">
+<div style="background:white;padding:22px;box-shadow:0 15px 50px rgba(0,0,0,.1)">
+<div style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;padding-bottom:13px;margin-bottom:18px;border-bottom:3px solid var(--ink);letter-spacing:2px;color:var(--acc);text-transform:uppercase">AARON - ДО ОПЕРАЦИИ</div>
+<img src="img/11.jpg" style="width:100%;height:360px;object-fit:cover;margin-bottom:18px">
+<p style="font-size:16px;font-style:italic;color:var(--ink2);line-height:1.5">Aaron Robson до операции. Видны тяжёлые последствия работы доктора-калеки из Лас-Вентураса.</p>
+</div>
+<div style="background:white;padding:22px;box-shadow:0 15px 50px rgba(0,0,0,.1)">
+<div style="font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;padding-bottom:13px;margin-bottom:18px;border-bottom:3px solid var(--ink);letter-spacing:2px;color:var(--acc);text-transform:uppercase">AARON - ПОСЛЕ ОПЕРАЦИИ</div>
+<img src="img/16.jpg" style="width:100%;height:360px;object-fit:cover;margin-bottom:18px">
+<p style="font-size:16px;font-style:italic;color:var(--ink2);line-height:1.5">Aaron Robson после успешной операции. Хирург Kenpachi Zaraki вернул брутальную внешность.</p>
+</div>
+</div>
+
+<div class="vd">
+<div class="vd-l">Итог - Дело №2</div>
+<div class="vd-t">ОБЕ ОПЕРАЦИИ ПРОШЛИ УСПЕШНО<span>Aisha и Aaron снова счастливы - San-Fierro News спасла двух жертв некачественной ринопластики</span></div>
+</div>
+
+<div class="sg">
+<div class="sx"><div class="sx-n">PUROSANGUE SAO</div><div class="sx-r">Главный редактор SFN</div></div>
+<div class="sx"><div class="sx-n">KENPACHI ZARAKI</div><div class="sx-r">Хирург Больницы Лос-Сантоса</div></div>
+</div>
+</article>
+
+<!-- ДЕЛО 3 -->
+<article class="cs" id="c3">
+<div class="cs-h">
+<div><div class="cs-n">03</div><div class="cs-nl">Дело из четырёх</div></div>
+<div>
+<h1 class="cs-t">ОФИЦЕР-ВЗЯТОЧНИК ПОЙМАН НА МЕСТЕ: <em>50.000$ ЗА СВОБОДУ</em></h1>
+<p class="cs-s">Коррумпированный офицер SFPD предлагал заключённым свободу за деньги. Операция по разоблачению проведена отделом внутренней безопасности</p>
+<div class="cs-m">
+<div class="m"><strong>Опубликовано</strong><span>3 октября 2026</span></div>
+<div class="m"><strong>Автор</strong><span>Purosangue Sao</span></div>
+<div class="m"><strong>Обвиняемый</strong><span>Miclusha Maclay</span></div>
+<div class="m"><strong>Статус</strong><span>Арестован</span></div>
+</div>
+</div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>В стенах San Fierro Police Department разгорелся скандал. Офицер <span class="hl">Miclusha Maclay</span> был пойман с поличным при получении взятки от заключённого, содержащегося в камере предварительного заключения.</p>
+<p>По данным внутренней безопасности, офицер систематически предлагал арестованным "особые условия" - закрытие дела и досрочное освобождение за денежное вознаграждение. Сумма, которую он называл, составляла <span class="hl">50,000$</span>.</p>
+</div>
+<div class="ap"><img src="img/18.jpg"><div class="pc"><span class="cn">ФОТО 01</span><span class="ct">Офицер Maclay подходит к камере заключённого</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<div class="pq">Гражданин, у меня есть для вас предложение.<span class="pq-a">Miclusha Maclay, офицер SFPD</span></div>
+<p>Так началась роковая беседа. Офицер подошёл к камере, где содержался арестант в белом худи, и начал разговор, который должен был остаться тайной. Но внутренняя безопасность вела скрытую запись.</p>
+</div>
+<div class="ap"><img src="img/19.jpg"><div class="pc"><span class="cn">ФОТО 02</span><span class="ct">"50.000$, и я закрываю ваше дело и выпускаю из КПЗ"</span></div></div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>Офицер чётко озвучил условия сделки: <span class="hl">50,000$</span> наличными - и дело будет "закрыто", а заключённый выпущен из КПЗ без каких-либо последствий. Он даже уточнил способ оплаты, проявив профессиональный цинизм.</p>
+<div class="pq">Оплата будет наличными или банком?<span class="pq-a">Miclusha Maclay, уточняет способ оплаты взятки</span></div>
+</div>
+<div class="ap"><img src="img/20.jpg"><div class="pc"><span class="cn">ФОТО 03</span><span class="ct">"Оплата будет наличными или банком?"</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<p>Заключённый, не подозревая о ловушке, достал бумажник и передал деньги офицеру прямо через решётку камеры. В этот момент операция по задержанию была завершена - офицер <span class="hl">Miclusha Maclay</span> был арестован своими же коллегами из отдела внутренней безопасности.</p>
+<div class="pq">Достал бумажник и передал деньги.<span class="pq-a">Из рапорта отдела внутренней безопасности</span></div>
+</div>
+<div class="ap"><img src="img/21.jpg"><div class="pc"><span class="cn">ФОТО 04</span><span class="ct">Передача денег зафиксирована - офицер арестован</span></div></div>
+</div>
+
+<div class="dv"><div class="dv-l"></div><div class="dv-t">УГОЛОВНОЕ ДЕЛО №3</div><div class="dv-l"></div></div>
+
+<div class="ds">
+<div class="ds-h">
+<div class="ds-e">San Fierro Police Department - Дело о коррупции</div>
+<h2 class="ds-t">ДЕЛО ОФИЦЕРА-ВЗЯТОЧНИКА</h2>
+<div class="ds-n">№2-333/2026 - Дата возбуждения: 3 октября 2026</div>
+</div>
+
+<div class="dg">
+<div class="dc"><div class="dc-l">Отделение</div><div class="dc-v">SAN FIERRO PD</div></div>
+<div class="dc"><div class="dc-l">Обвиняемый</div><div class="dc-v">MICLUSHA MACLAY</div></div>
+<div class="dc"><div class="dc-l">Статья</div><div class="dc-v">ВЗЯТКА, КОРРУПЦИЯ, ЗЛОУПОТРЕБЛЕНИЕ</div></div>
+<div class="dc"><div class="dc-l">Место преступления</div><div class="dc-v">КПЗ SAN-FIERRO PD</div></div>
+<div class="dc"><div class="dc-l">Сумма взятки</div><div class="dc-v">50,000$</div></div>
+<div class="dc"><div class="dc-l">Статус</div><div class="dc-v">АРЕСТОВАН</div></div>
+</div>
+
+<div class="sp">
+<div class="spp"><div class="bd">Коррупционер</div><img src="img/18.jpg"><div class="cp">Miclusha Maclay - офицер SFPD, арестован за взятку</div></div>
+<div class="spi">
+<h3>ДАННЫЕ ОБВИНЯЕМОГО</h3>
+<div class="rw"><strong>Звание</strong><p>Офицер San Fierro Police Department</p></div>
+<div class="rw"><strong>Статус</strong><p>Арестован отделом внутренней безопасности</p></div>
+<div class="rw"><strong>Особые приметы</strong><p>Форма офицера SFPD, кепка, тактический жилет</p></div>
+<div class="rw"><strong>Метод преступления</strong><p>Предложение свободы за 50,000$ заключённым в КПЗ</p></div>
+</div>
+</div>
+
+<div class="db">
+<div>
+<h3>ОПИСАНИЕ ПРЕСТУПЛЕНИЯ</h3>
+<p>Офицер Miclusha Maclay использовал своё служебное положение для вымогательства взяток у заключённых, содержащихся в камере предварительного заключения San-Fierro PD. Он предлагал "закрыть дело" и "выпустить из КПЗ" за сумму 50,000$.</p>
+<p>Операция по разоблачению была проведена отделом внутренней безопасности. Сотрудник под прикрытием, содержавшийся в камере, зафиксировал все этапы сделки - от первого предложения до передачи денег.</p>
+<h3>ХОД ОПЕРАЦИИ</h3>
+<p>Офицер подошёл к камере и произнёс фразу: "Гражданин, у меня есть для вас предложение". После этого он чётко озвучил условия - 50,000$ за свободу. Когда заключённый спросил о способе оплаты, офицер уточнил: "Оплата будет наличными или банком?".</p>
+</div>
+<div>
+<h3>ВЕЩЕСТВЕННЫЕ ДОКАЗАТЕЛЬСТВА</h3>
+<ul class="el">
+<li>Аудио- и видеозапись разговора офицера с заключённым</li>
+<li>50,000$ наличными, изъятые при аресте</li>
+<li>Показания сотрудника под прикрытием</li>
+<li>Записи камер видеонаблюдения КПЗ</li>
+<li>Служебное удостоверение офицера Maclay</li>
+<li>Бумажник заключённого с остатком средств</li>
+</ul>
+<h3>ПОСЛЕДСТВИЯ</h3>
+<p>После ареста офицера Maclay отдел внутренней безопасности начал проверку всех его дел за последний год. Не исключено, что количество эпизодов коррупции окажется значительно больше одного зафиксированного случая.</p>
+</div>
+</div>
+
+<div class="gt">ПРОЦЕСС ВЗЯТКИ</div>
+<div class="gl">
+<div class="gi"><img src="img/18.jpg"><strong>ЭТАП 01</strong><span>"Гражданин, у меня есть для вас предложение." - офицер подходит к камере</span></div>
+<div class="gi"><img src="img/19.jpg"><strong>ЭТАП 02</strong><span>"50.000$, и я закрываю ваше дело и выпускаю из КПЗ" - озвучена сумма</span></div>
+<div class="gi"><img src="img/20.jpg"><strong>ЭТАП 03</strong><span>"Оплата будет наличными или банком?" - уточнение способа оплаты</span></div>
+<div class="gi"><img src="img/21.jpg"><strong>ЭТАП 04</strong><span>Заключённый достал бумажник и передал деньги - офицер арестован</span></div>
+</div>
+
+<div class="vd">
+<div class="vd-l">Вердикт - Дело №3</div>
+<div class="vd-t">ОФИЦЕР MICLUSHA MACLAY АРЕСТОВАН ЗА ВЗЯТКУ В 50,000$<span>Коррупция в SFPD пресечена · Деньги изъяты · Расследование продолжается</span></div>
+</div>
+
+<div class="sg">
+<div class="sx"><div class="sx-n">MICLUSHA MACLAY</div><div class="sx-r">Обвиняемый, бывший офицер SFPD</div></div>
+<div class="sx"><div class="sx-n">PUROSANGUE SAO</div><div class="sx-r">Программный директор San-Fierro News</div></div>
+</div>
+</div>
+</article>
+
+<!-- ДЕЛО 4 -->
+<article class="cs" id="c4">
+<div class="cs-h">
+<div><div class="cs-n">04</div><div class="cs-nl">Дело из четырёх</div></div>
+<div>
+<h1 class="cs-t">ТРЕНЕР-ОРГАНИЗАТОР ПОДПОЛЬНЫХ БОЁВ ПОЙМАН: <em>НЕЛЕГАЛЬНЫЙ БОКС ЗА ДЕНЬГИ В ЛОС-САНТОСЕ</em></h1>
+<p class="cs-s">Тренер по боксу устроил в своём зале нелегальные бои на деньги. Purosangue Sao лично заснял последний поединок перед арестом</p>
+<div class="cs-m">
+<div class="m"><strong>Опубликовано</strong><span>3 октября 2026</span></div>
+<div class="m"><strong>Автор</strong><span>Purosangue Sao</span></div>
+<div class="m"><strong>Обвиняемый</strong><span>Joni Sonn</span></div>
+<div class="m"><strong>Статус</strong><span>Арестован</span></div>
+</div>
+</div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>В Лос-Сантосе разоблачена подпольная боксёрская организация. Тренер <span class="hl">Joni Sonn</span>, владелец боксёрского зала GYM, использовал своё заведение для проведения нелегальных боёв на деньги.</p>
+<p>По информации San-Fierro News, бои проходили регулярно, участники ставили крупные суммы, а тренер брал процент с каждого поединка. Зал, который должен был воспитывать спортсменов, превратился в настоящую подпольную арену.</p>
+</div>
+<div class="ap"><img src="img/22.jpg"><div class="pc"><span class="cn">ФОТО 01</span><span class="ct">Тренер Joni Sonn у входа в боксёрский зал GYM в Лос-Сантосе</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<div class="pq">Последний бой перед арестом был заснят нашим корреспондентом.<span class="pq-a">Purosangue Sao, программный директор SFN</span></div>
+<p>Программный директор San-Fierro News <span class="hl">Purosangue Sao</span> лично прибыл в зал и заснял финальный поединок между двумя боксёрами - <span class="hl">Yasa Chok</span> и <span class="hl">Akame Matsui</span>. Этот бой стал последним в истории подпольной организации.</p>
+</div>
+<div class="ap"><img src="img/23.jpg"><div class="pc"><span class="cn">ФОТО 02</span><span class="ct">Yasa Chok и Akame Matsui начинают последний бой</span></div></div>
+</div>
+
+<div class="ar">
+<div class="at">
+<p>Оба боксёра вышли на ринг в синих шортах и красных перчатках. Зал был заполнен зрителями, делавшими ставки. Атмосфера накалялась с каждым раундом.</p>
+<div class="pq">Бой был жёстким, но честным - пока не вмешалась полиция.<span class="pq-a">Очевидец события</span></div>
+</div>
+<div class="ap"><img src="img/24.jpg"><div class="pc"><span class="cn">ФОТО 03</span><span class="ct">Yasa Chok наносит удар Akame Matsui</span></div></div>
+</div>
+
+<div class="ar rev">
+<div class="at">
+<p>Именно в разгар поединка в зал ворвались сотрудники правоохранительных органов. Тренер <span class="hl">Joni Sonn</span> был задержан на месте, все участники боя допрошены, ставки и денежные средства изъяты.</p>
+<div class="pq">На этом подпольные бои в Лос-Сантосе закончены.<span class="pq-a">Представитель полиции Лос-Сантоса</span></div>
+</div>
+<div class="ap"><img src="img/25.jpg"><div class="pc"><span class="cn">ФОТО 04</span><span class="ct">Решающий удар последнего боя - Заснят Purosangue Sao</span></div></div>
+</div>
+
+<div class="dv"><div class="dv-l"></div><div class="dv-t">УГОЛОВНОЕ ДЕЛО №4</div><div class="dv-l"></div></div>
+
+<div class="ds">
+<div class="ds-h">
+<div class="ds-e">Los Santos Police Department - Дело о нелегальной деятельности</div>
+<h2 class="ds-t">ДЕЛО ТРЕНЕРА-ОРГАНИЗАТОРА</h2>
+<div class="ds-n">№2-444/2026 - Дата возбуждения: 3 октября 2026</div>
+</div>
+
+<div class="dg">
+<div class="dc"><div class="dc-l">Отделение</div><div class="dc-v">LOS SANTOS PD</div></div>
+<div class="dc"><div class="dc-l">Обвиняемый</div><div class="dc-v">JONI SONN</div></div>
+<div class="dc"><div class="dc-l">Статья</div><div class="dc-v">НЕЛЕГАЛЬНЫЕ БОИ, ОРГАНИЗАЦИЯ АЗАРТНЫХ ИГР</div></div>
+<div class="dc"><div class="dc-l">Место преступления</div><div class="dc-v">БОКСЁРСКИЙ ЗАЛ GYM, ЛОС-САНТОС</div></div>
+<div class="dc"><div class="dc-l">Участники боёв</div><div class="dc-v">YASA CHOK, AKAME MATSUI</div></div>
+<div class="dc"><div class="dc-l">Статус</div><div class="dc-v">АРЕСТОВАН</div></div>
+</div>
+
+<div class="sp">
+<div class="spp"><div class="bd">Обвиняемый</div><img src="img/26.jpg"><div class="cp">Joni Sonn - тренер, организатор подпольных боёв</div></div>
+<div class="spi">
+<h3>ДАННЫЕ ОБВИНЯЕМОГО</h3>
+<div class="rw"><strong>Профессия</strong><p>Тренер по боксу, владелец зала GYM в Лос-Сантосе</p></div>
+<div class="rw"><strong>Статус</strong><p>Арестован полицией Лос-Сантоса</p></div>
+<div class="rw"><strong>Особые приметы</strong><p>Лысый, клетчатая рубашка, джинсы</p></div>
+<div class="rw"><strong>Метод преступления</strong><p>Организация нелегальных боксёрских боёв на деньги в своём зале</p></div>
+</div>
+</div>
+
+<div class="db">
+<div>
+<h3>ОПИСАНИЕ ПРЕСТУПЛЕНИЯ</h3>
+<p>Тренер Joni Sonn использовал свой боксёрский зал GYM в Лос-Сантосе для проведения нелегальных боёв на деньги. Боксёры выходили на ринг без официальной регистрации, зрители делали ставки, а тренер получал процент с каждого поединка.</p>
+<p>Программный директор San-Fierro News Purosangue Sao получил информацию о деятельности зала и лично прибыл на место, чтобы зафиксировать доказательства. Ему удалось заснять последний бой между Yasa Chok и Akame Matsui.</p>
+<h3>ПОСЛЕДНИЙ БОЙ</h3>
+<p>Финальный поединок между Yasa Chok и Akame Matsui стал последним в истории подпольной организации. Оба боксёра продемонстрировали высокий уровень подготовки, но бой был прерван вмешательством правоохранительных органов.</p>
+</div>
+<div>
+<h3>ВЕЩЕСТВЕННЫЕ ДОКАЗАТЕЛЬСТВА</h3>
+<ul class="el">
+<li>Фото- и видеоматериалы, сделанные Purosangue Sao</li>
+<li>Показания участников боёв Yasa Chok и Akame Matsui</li>
+<li>Изъятые денежные средства от ставок</li>
+<li>Списки участников и зрителей</li>
+<li>Документы зала GYM</li>
+<li>Показания очевидцев</li>
+</ul>
+<h3>ПОСЛЕДСТВИЯ</h3>
+<p>После ареста тренера Joni Sonn боксёрский зал GYM закрыт для проведения любых мероприятий. Полиция Лос-Сантоса проверяет причастность других лиц к организации подпольных боёв.</p>
+</div>
+</div>
+
+<div class="gt">ПОСЛЕДНИЙ БОЙ</div>
+<div class="gl">
+<div class="gi"><img src="img/22.jpg"><strong>ЭТАП 01</strong><span>Тренер Joni Sonn у входа в зал GYM - место преступления</span></div>
+<div class="gi"><img src="img/23.jpg"><strong>ЭТАП 02</strong><span>Yasa Chok и Akame Matsui начинают последний бой</span></div>
+<div class="gi"><img src="img/24.jpg"><strong>ЭТАП 03</strong><span>Yasa Chok наносит удар Akame Matsui</span></div>
+<div class="gi"><img src="img/25.jpg"><strong>ЭТАП 04</strong><span>Решающий удар последнего боя - Заснят Purosangue Sao</span></div>
+</div>
+
+<div class="vd">
+<div class="vd-l">Вердикт - Дело №4</div>
+<div class="vd-t">ТРЕНЕР JONI SONN АРЕСТОВАН ЗА ОРГАНИЗАЦИЮ ПОДПОЛЬНЫХ БОЁВ<span>Зал GYM закрыт · Все участники допрошены · San-Fierro News завершила расследование</span></div>
+</div>
+
+<div class="sg">
+<div class="sx"><div class="sx-n">JONI SONN</div><div class="sx-r">Обвиняемый, бывший тренер зала GYM</div></div>
+<div class="sx"><div class="sx-n">PUROSANGUE SAO</div><div class="sx-r">Программный директор San-Fierro News</div></div>
+</div>
+</div>
+</article>
+
+</main>
+
+<footer class="ft">
+<div class="ft-l">SAN-<em>FIERRO</em> NEWS</div>
+<div class="ft-i">Редактор: Purosangue Sao - Штат: Saint-Louis</div>
+<div class="ft-i">Суббота, 3 октября 2026 - Выпуск №1</div>
+<div class="ft-c">© 2026 San-Fierro News - Все права защищены</div>
+</footer>
+
+<script>
+function sc(id,el){
+const t=document.getElementById(id);
+if(!t)return;
+document.querySelectorAll('.nav-i').forEach(i=>i.classList.remove('act'));
+el.classList.add('act');
+window.scrollTo({top:t.getBoundingClientRect().top+window.pageYOffset-80,behavior:'smooth'});
+}
+const cs=document.querySelectorAll('.cs'),ni=document.querySelectorAll('.nav-i[data-t]');
+const ob=new IntersectionObserver(es=>{
+es.forEach(e=>{
+if(e.isIntersecting){
+const id=e.target.id;
+ni.forEach(i=>{
+i.classList.remove('act');
+if(i.dataset.t===id)i.classList.add('act');
+});
+}
+});
+},{rootMargin:'-100px 0px -60% 0px'});
+cs.forEach(c=>ob.observe(c));
+</script>
+
+</body>
+</html>
